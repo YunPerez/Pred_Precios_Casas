@@ -1,8 +1,9 @@
 # Se anexan los directorios que se deben ignorar en el repositorio
 src/__pycache__/
-data/prep/
-data/raw/
-data/predictions/
+src/.DS_Store
+#data/prep/
+#data/raw/
+#data/predictions/
 config.yaml
 .DS_Store
-src/.DS_Store
+
