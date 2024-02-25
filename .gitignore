@@ -1,12 +1,8 @@
 # Se anexan los directorios que se deben ignorar en el repositorio
 src/__pycache__/
 src/.DS_Store
-data/prep/data_prep.csv
-data/prep/test.csv
-data/prep/train.csv
-data/raw/data.csv
-data/raw/test.csv
-data/raw/train.csv
+data/prep/*.csv
+data/raw/*.csv
 config.yaml
 .DS_Store
 .ipynb_checkpoints/
