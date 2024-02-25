@@ -4,6 +4,7 @@ un modelo de machine learning con los datos de entrada en formato .csv
 que se encuentran en la carpeta data/prep y guardar el modelo
 entrenado en la carpeta models con formato .joblib
 '''
+import os
 import yaml
 import pandas as pd
 import joblib
@@ -42,5 +43,8 @@ def train_model(data_input, config, output_dir):
     rfr_model = RandomForestRegressor(**rf_params)
     rfr_model.fit(x_train, y_train)
     # Guardamos el modelo entrenado en la carpeta models
-    joblib.dump(rfr_model, output_dir + "rfr_model.joblib")
+    os.makedirs(output_dir, exist_ok=True)
+    joblib.dump(rfr_model,
+                os.path.join(output_dir,
+                             "rfr_model.joblib"), compress=("zlib", None))
     print(f"El modelo fue entrenado y guardado en {output_dir}")
