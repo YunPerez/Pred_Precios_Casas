@@ -3,8 +3,6 @@ src/__pycache__/
 data/prep/
 data/raw/
 data/predictions/
-
 config.yaml
 .DS_Store
 src/.DS_Store
-data/.DS_Store
