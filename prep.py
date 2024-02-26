@@ -57,4 +57,4 @@ if __name__ == "__main__":
     # Se hace el primer preprocesamiento de los datos
     data = preprocess_data('data/raw/data.csv',
                            output_prep_data='data/prep/data_prep.csv')
-    #logging.info("Los datos fueron preprocesados correctamente")
+    logging.info("Los datos fueron preprocesados correctamente")

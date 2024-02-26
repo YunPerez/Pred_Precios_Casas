@@ -8,34 +8,47 @@ import pandas as pd
 import joblib
 
 
-def get_user_input():
+def get_user_input(default_values=None, input_function=input):
     '''
     Solicita al usuario ingresar los valores de las variables para predecir
     el precio de la casa.
     '''
     user_input = {}
-    user_input['OverallQual'] = float(input(
-        "OverallQual - Calidad de materiales y acabados "
-        "(valor entre 1 y 10): "))
-    user_input['GrLivArea'] = float(input(
-        "GrLivArea - Superficie habitable (nivel del suelo) pies cuadrados "
-        "(valor entre 0 y 5642): "))
-    user_input['FullBath'] = float(input(
-        "FullBath - Número de baños completos (valor entre 1 y 4): "))
-    user_input['YearBuilt'] = float(input(
-        "YearBuilt - Año de construcción (valor entre 1872 y 2010): "))
-    user_input['GarageCars'] = float(input(
-        "GarageCars - Tamaño garaje en # de coches (valor entre 0 y 5): "))
-    user_input['GarageArea'] = float(input(
-        "GarageArea - Tamaño garaje pies cuadrados (valor entre 0 y 1488):"))
-    user_input['ExterQual'] = input(
-        "ExterQual - Calidad de materiales exteriores (valor entre 0 y 3): ")
-    user_input['BsmtQual'] = input(
-        "BsmtQual - Altura del sótano (valor entre 0 y 4): ")
+
+    variable_ranges = {
+        'OverallQual - Calidad de materiales y acabados ': (1, 10),
+        'GrLivArea - Superficie habitable (nivel del suelo) pies cuadrados':
+        (0, 5642),
+        'FullBath - Número de baños completos': (1, 4),
+        'YearBuilt - Año de construcción': (1872, 2010),
+        'GarageCars - Tamaño garaje en # de coches': (0, 5),
+        'GarageArea -  Tamaño garaje pies cuadrados': (0, 1488),
+        'ExterQual - Calidad de materiales exteriores': (0, 3),
+        'BsmtQual - Altura del sótano': (0, 4)
+    }
+
+    for variable, value_range in variable_ranges.items():
+        while True:
+            try:
+                if default_values and variable in default_values:
+                    default_value = default_values[variable]
+                    user_input[variable] = float(default_value)
+                    print(f"Usando el valor default"
+                          f" {default_value} for '{variable}'.")
+                else:
+                    user_input[variable] = float(input_function(
+                        f"{variable} - {value_range[0]}-{value_range[1]}: "
+                    ))
+                if value_range[0] <= user_input[variable] <= value_range[1]:
+                    break
+            except ValueError:
+                print(f"Error: Por favor, ingrese un valor "
+                      f"numérico válido para '{variable}'.")
+
     return user_input
 
 
-def inference(output_file_path):
+def inference(output_file_path, user_input_df):
     '''
     Esta función se encarga de hacer inferencia
     con un modelo de machine learning previamente
@@ -49,13 +62,12 @@ def inference(output_file_path):
                        'GarageArea', 'ExterQual',
                        'BsmtQual']
 
-    # Solicitar al usuario ingresar los valores de las variables
-    user_input = get_user_input()
-
-    # Crear un DataFrame con las características ingresadas por el usuario
-    user_input_df = pd.DataFrame(
-        {'Id': [5000], **user_input},
-        columns=feature_columns)
+    # Check if user_input_df is None
+    if user_input_df is None:
+        # If not provided, solicit input from the user
+        user_input = get_user_input()
+        user_input_df = pd.DataFrame({'Id': [5000],
+                                      **user_input}, columns=feature_columns)
 
     # Cargar el modelo previamente entrenado
     loaded_rfr = joblib.load("./models/rfr_model.joblib")
