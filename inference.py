@@ -16,13 +16,12 @@ if not os.path.exists("logs/"):
 # Setup Logging
 now = datetime.now()
 date_time = now.strftime("%Y%m%d_%H%M%S")
-log_prep_file_name = f"logs/{date_time}_inference.log"
+log_inference_file_name = f"logs/{date_time}_inference.log"
 logging.basicConfig(
-    filename=log_prep_file_name,
+    filename=log_inference_file_name,
     level=logging.DEBUG,
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
-
 
 logging.info("Inferencia iniciada ...")
 
@@ -34,10 +33,12 @@ def main(command_line_args):
     logging.info("Cargando el modelo ...")
     # Directorios de entrada y salida
     output_pred = command_line_args.output_path
+    logging.debug("Ruta del modelo: %s", command_line_args.model_path)
     logging.info("El modelo fue cargado exitosamente")
     if not os.path.exists(output_pred):
         os.makedirs(output_pred)
     output_file = os.path.join(output_pred, "predictions.csv")
+    logging.debug("Ruta de salida para las predicciones: %s", output_file)
     logging.info("La predicción ya fue guardada en ./data/predictions")
 
     # Definir las características necesarias para la predicción
@@ -46,9 +47,12 @@ def main(command_line_args):
                        'YearBuilt', 'GarageCars',
                        'GarageArea', 'ExterQual',
                        'BsmtQual']
+    logging.debug("Características para la predicción: %s",
+                  ', '.join(feature_columns))
 
     # Solicitar entrada del usuario
     user_input = get_user_input(feature_columns)
+    logging.debug("Entrada del usuario: %s", str(user_input))
     logging.info("Entrada del usuario obtenida")
     # Se ejecuta la inferencia
     inference(output_file, user_input)
