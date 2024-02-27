@@ -11,7 +11,6 @@ import os
 import logging
 from datetime import datetime
 import argparse
-import pandas as pd
 from src.scripts_prep import load_data, preprocess_data
 
 if not os.path.exists("logs/"):
@@ -23,7 +22,7 @@ log_prep_file_name = f"logs/{date_time}_prep.log"
 logging.basicConfig(
     filename=log_prep_file_name,
     level=logging.DEBUG,
-    filemode='w',
+    filemode='w',  # Cambiado de 'a' a 'w' para sobrescribir los logs
     format='%(name)s - %(levelname)s - %(message)s')
 
 if __name__ == "__main__":
@@ -45,16 +44,25 @@ if __name__ == "__main__":
     # Se obtienen los argumentos proporcionados por el usuario
     args = parser.parse_args()
 
+    logging.debug("Rutas de los datos: %s, %s, %s",
+                  args.input_train, args.input_test, args.output_prep)
+
     # Se asegura de que la carpeta de salida exista, si no, se crea
     if not os.path.exists(args.output_prep):
         os.makedirs(args.output_prep)
 
     # Se cargan los datos
+    logging.info("Cargando los datos ...")
     data = load_data(args.input_train,
                      args.input_test, output_prep_data='data/raw/data.csv')
+    logging.debug("Datos cargados con %d filas y %d columnas",
+                  data.shape[0], data.shape[1])
     logging.info("Los datos fueron cargados correctamente")
 
     # Se hace el primer preprocesamiento de los datos
+    logging.info("Preprocesando los datos ...")
     data = preprocess_data('data/raw/data.csv',
                            output_prep_data='data/prep/data_prep.csv')
+    logging.debug("Datos preprocesados con %d filas y %d columnas",
+                  data.shape[0], data.shape[1])
     logging.info("Los datos fueron preprocesados correctamente")
