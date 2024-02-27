@@ -46,6 +46,8 @@ if __name__ == "__main__":
     # Se asignan los paths de entrada y salida
     INPUT = args.input
     OUTPUT_MOD = args.output
+    logging.debug("Ruta de entrada: %s", INPUT)
+    logging.debug("Ruta de salida: %s", OUTPUT_MOD)
     config = load_config(args.config)
     logging.info("La configuración del modelo fue cargada correctamente")
     # Asegurarse de que la carpeta de salida exista, si no, crearla
@@ -56,3 +58,5 @@ if __name__ == "__main__":
     train_model(INPUT, config, OUTPUT_MOD)
     print("El modelo fue entrenado y guardado en la carpeta models")
     logging.info("El modelo fue entrenado y guardado en la carpeta models")
+    logging.info("Entrenamiento finalizado")
+    logging.shutdown()

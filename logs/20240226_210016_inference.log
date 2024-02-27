@@ -1,0 +1,11 @@
+root - INFO - Inferencia iniciada ...
+root - INFO - Cargando el modelo ...
+root - DEBUG - Ruta del modelo: ./models/rfr_model.joblib
+root - INFO - El modelo fue cargado exitosamente
+root - DEBUG - Ruta de salida para las predicciones: ./data/predictions/predictions.csv
+root - INFO - La predicción ya fue guardada en ./data/predictions
+root - DEBUG - Características para la predicción: Id, OverallQual, GrLivArea, FullBath, YearBuilt, GarageCars, GarageArea, ExterQual, BsmtQual
+root - DEBUG - Entrada del usuario:      Id  OverallQual  GrLivArea  FullBath  YearBuilt  GarageCars  GarageArea  ExterQual  BsmtQual
+0  5000          9.0     3500.0       4.0     2003.0         3.0       760.0        3.0       4.0
+root - INFO - Entrada del usuario obtenida
+root - INFO - Inferencia finalizada

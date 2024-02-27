@@ -1,0 +1,9 @@
+root - INFO - Empezando el preproceso ...
+root - DEBUG - Rutas de los datos: ./data/raw/train.csv, ./data/raw/test.csv, ./data/prep
+root - INFO - Cargando los datos ...
+root - DEBUG - Datos cargados con 2919 filas y 77 columnas
+root - INFO - Los datos fueron cargados correctamente
+root - INFO - Preprocesando los datos ...
+root - DEBUG - Datos preprocesados con 2919 filas y 10 columnas
+root - INFO - Los datos fueron preprocesados correctamente
+root - INFO - El preproceso ha terminado

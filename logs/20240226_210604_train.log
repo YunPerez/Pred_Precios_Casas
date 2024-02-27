@@ -1,0 +1,6 @@
+root - INFO - Empezando el entrenamiento ...
+root - DEBUG - Ruta de entrada: ./data/prep/data_prep.csv
+root - DEBUG - Ruta de salida: ./models/
+root - INFO - La configuración del modelo fue cargada correctamente
+root - INFO - El modelo fue entrenado y guardado en la carpeta models
+root - INFO - Entrenamiento finalizado
