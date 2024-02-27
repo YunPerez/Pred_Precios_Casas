@@ -1,3 +1,4 @@
+
 # Predicción precio casas
 # (MCD ITAM Primavera 2024)
 Repositorio de un producto de datos para la predicción del precio de casas 
@@ -36,6 +37,7 @@ Para ejecutar este producto de datos se necesita lo siguiente:
 - Activar el entorno virtual, corriendo la siguiente línea de comando en la terminal:
   ```bash
   conda env create --file environments.yml
+  conda activate precioscasas
   ```
 - Correr los scripts en el siguiente orden:
   1. prep.py
@@ -47,15 +49,9 @@ Para ejecutar este producto de datos se necesita lo siguiente:
 - [README.md](README.md)
 - [data](data)
   - [predictions](data/predictions)
-    - [predictions.csv](data/predictions/predictions.csv)
   - [prep](data/prep)
-    - [data_prep.csv](data/prep/data_prep.csv)
-    - [test.csv](data/prep/test.csv)
-    - [train.csv](data/prep/train.csv)
   - [raw](data/raw)
-    - [data.csv](data/raw/data.csv)
-    - [test.csv](data/raw/test.csv)
-    - [train.csv](data/raw/train.csv)
+- [enviroment.yml](environment.yml)
 - [inference.py](inference.py)
 - [logs](logs)
 - [models](models)
@@ -64,42 +60,100 @@ Para ejecutar este producto de datos se necesita lo siguiente:
   - [02_tarea_Yuneri_Perez.ipynb](notebooks/02_tarea_Yuneri_Perez.ipynb)
 - [prep.py](prep.py)
 - [src](src)
-  - [pycache](src/pycache)
-    - [scripts_inference.cpython-311.pyc](src/pycache/scripts_inference.cpython-311.pyc)
-    - [scripts_train.cpython-311.pyc](src/pycache/scripts_train.cpython-311.pyc)
   - [scripts_inference.py](src/scripts_inference.py)
   - [scripts_prep.py](src/scripts_prep.py)
   - [scripts_train.py](src/scripts_train.py)
+  - [test_scripts_inference.py](src/test_scripts_inference.py)
+  - [test_scripts_prep.py](src/test_scripts_prep.py)
+  - [test_scripts_train.py](src/test_scripts_train.py)
 - [train.py](train.py)
 
 ```
 .
-├── LICENSE
-├── README.md
-├── config.yaml
-├── data
-│   ├── predictions
-│   │   └── predictions.csv
-│   ├── prep
-│   │   ├── data_prep.csv
-│   │   ├── test.csv
-│   │   └── train.csv
-│   └── raw
-│       ├── data.csv
-│       ├── test.csv
-│       └── train.csv
-├── inference.py
-├── logs
-├── models
-│   └── rfr_model.joblib
-├── notebooks
-├── prep.py
-├── src
-│   ├── __pycache__
-│   │   ├── scripts_inference.cpython-311.pyc
-│   │   ├── scripts_prep.cpython-311.pyc
-│   │   └── scripts_train.cpython-311.pyc
-│   ├── scripts_inference.py
-│   ├── scripts_prep.py
-│   └── scripts_train.py
-└── train.py
+├── ./LICENSE
+├── ./README.md
+├── ./data
+│   ├── ./data/predictions
+│   ├── ./data/prep
+│   └── ./data/raw
+├── ./environment.yml
+├── ./inference.py
+├── ./logs
+│   ├── ./logs/20240225_181924_prep.log
+│   ├── ./logs/20240225_182539_train.log
+│   └── ./logs/20240226_183029_inference.log
+├── ./models
+│   └── ./models/rfr_model.joblib
+├── ./notebooks
+│   └── ./notebooks/02_tarea_Yuneri_Pérez.ipynb
+├── ./prep.py
+├── ./src
+│   ├── ./src/scripts_inference.py
+│   ├── ./src/scripts_prep.py
+│   ├── ./src/scripts_train.py
+│   ├── ./src/test_scripts_inference.py
+│   ├── ./src/test_scripts_prep.py
+│   └── ./src/test_scripts_train.py
+└── ./train.py
+
+
+## Tests
+
+Para correr los tests individuales para cada script, correr lo siguiente en la terminal:
+
+```bash
+  python src/test_scripts_prep.py
+```
+Resultado:
+============================================================================================= test session starts ==============================================================================================
+platform darwin -- Python 3.11.8, pytest-8.0.1, pluggy-1.4.0
+rootdir: /Users/yunperez/Documents/00. Academico/00.DataScience ITAM/2do semestre (Primavera 2024)/Métodos de Gran Escala/Tareas/Tarea 03 - Codigo Limpio/Pred_Precios_Casas
+plugins: anyio-4.3.0
+collected 4 items
+
+src/test_scripts_inference.py .                                                                                                                                                                          [ 25%]
+src/test_scripts_prep.py .                                                                                                                                                                               [ 50%]
+src/test_scripts_train.py ..                                                                                                                                                                             [100%]
+
+============================================================================================== 4 passed in 20.82s ==============================================================================================
+
+```bash
+  python src/test_scripts_train.py
+```
+Resultado:
+============================================================================================= test session starts ==============================================================================================
+platform darwin -- Python 3.11.8, pytest-8.0.1, pluggy-1.4.0
+rootdir: /Users/yunperez/Documents/00. Academico/00.DataScience ITAM/2do semestre (Primavera 2024)/Métodos de Gran Escala/Tareas/Tarea 03 - Codigo Limpio/Pred_Precios_Casas
+plugins: anyio-4.3.0
+collected 4 items
+
+src/test_scripts_inference.py .                                                                                                                                                                          [ 25%]
+src/test_scripts_prep.py .                                                                                                                                                                               [ 50%]
+src/test_scripts_train.py ..                                                                                                                                                                             [100%]
+
+============================================================================================== 4 passed in 20.78s ==============================================================================================
+
+```bash
+  python src/test_scripts_inference.py
+```
+Resultado:
+============================================================================================= test session starts ==============================================================================================
+platform darwin -- Python 3.11.8, pytest-8.0.1, pluggy-1.4.0
+rootdir: /Users/yunperez/Documents/00. Academico/00.DataScience ITAM/2do semestre (Primavera 2024)/Métodos de Gran Escala/Tareas/Tarea 03 - Codigo Limpio/Pred_Precios_Casas
+plugins: anyio-4.3.0
+collected 4 items
+
+src/test_scripts_inference.py      Id  OverallQual  GrLivArea  FullBath  YearBuilt  GarageCars  GarageArea  ExterQual  BsmtQual
+0  5000            8       1694         2       2004         2.0       636.0          2         0
+El precio de la casa es de: 293061.4511000001
+Predicción guardada en /private/var/folders/_l/ynx4pv1119nfknfzrs_tsthr0000gn/T/pytest-of-yunperez/pytest-47/test_inference0/predictions.csv
+   Predicted_SalePrice
+0          293061.4511
+.
+src/test_scripts_prep.py La base fue catalogada y guardada en data/prep/data_prep.csv
+.
+src/test_scripts_train.py .El modelo fue entrenado y guardado en /private/var/folders/_l/ynx4pv1119nfknfzrs_tsthr0000gn/T/pytest-of-yunperez/pytest-47/test_train_model0/models/
+.
+
+============================================================================================== 4 passed in 21.52s ==============================================================================================
+
