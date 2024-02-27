@@ -1,0 +1,6 @@
+root - INFO - Inferencia iniciada ...
+root - INFO - Cargando el modelo ...
+root - INFO - El modelo fue cargado exitosamente
+root - INFO - La predicción ya fue guardada en ./data/predictions
+root - INFO - Entrada del usuario obtenida
+root - INFO - Inferencia finalizada

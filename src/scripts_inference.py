@@ -1,51 +1,136 @@
+
 '''
-Este módulo contiene las funciones necesarias para hacer inferencia
-con un modelo de machine learning previamente entrenado y que fue
-guardado en la carpeta ./models
+Este módulo contiene las funciones necesarias para hacer
+inferencia con un modelo de machine learning previamente
+entrenado y que fue guardado en la carpeta ./models
+Ademas de solicitar al usuario los valores de las características
+necesarias para hacer la predicción.
 '''
-# Se importan las librerías necesarias
 import pandas as pd
 import joblib
 
 
-def get_user_input(default_values=None, input_function=input):
+def get_user_input(feature_columns=None,
+                   default_values=None,
+                   input_function=input):
     '''
-    Solicita al usuario ingresar los valores de las variables para predecir
-    el precio de la casa.
+    Esta función se encarga de solicitar al usuario
+    los valores de las características necesarias para
+    hacer la predicción. Si no se proporciona un valor
+    por defecto, se solicitará al usuario que ingrese
+    el valor correspondiente.
     '''
-    user_input = {}
+    if feature_columns is None:
+        feature_columns = [
+            'Id', 'OverallQual', 'GrLivArea', 'FullBath', 'YearBuilt',
+            'GarageCars', 'GarageArea', 'ExterQual', 'BsmtQual'
+        ]
 
+    if default_values is None:
+        default_values = {}
+
+    user_input_data = {}
+
+    # Definir rangos de variables
     variable_ranges = {
-        'OverallQual - Calidad de materiales y acabados ': (1, 10),
-        'GrLivArea - Superficie habitable (nivel del suelo) pies cuadrados':
-        (0, 5642),
-        'FullBath - Número de baños completos': (1, 4),
-        'YearBuilt - Año de construcción': (1872, 2010),
-        'GarageCars - Tamaño garaje en # de coches': (0, 5),
-        'GarageArea -  Tamaño garaje pies cuadrados': (0, 1488),
-        'ExterQual - Calidad de materiales exteriores': (0, 3),
-        'BsmtQual - Altura del sótano': (0, 4)
+        'OverallQual': (1, 10),
+        'GrLivArea': (0, 5642),
+        'FullBath': (1, 4),
+        'YearBuilt': (1872, 2010),
+        'GarageCars': (0, 5),
+        'GarageArea': (0, 1488),
+        'ExterQual': (0, 3),
+        'BsmtQual': (0, 4)
     }
 
-    for variable, value_range in variable_ranges.items():
-        while True:
-            try:
-                if default_values and variable in default_values:
-                    default_value = default_values[variable]
-                    user_input[variable] = float(default_value)
-                    print(f"Usando el valor default"
-                          f" {default_value} for '{variable}'.")
-                else:
-                    user_input[variable] = float(input_function(
-                        f"{variable} - {value_range[0]}-{value_range[1]}: "
-                    ))
-                if value_range[0] <= user_input[variable] <= value_range[1]:
-                    break
-            except ValueError:
-                print(f"Error: Por favor, ingrese un valor "
-                      f"numérico válido para '{variable}'.")
+    for column in feature_columns:
+        if column == 'Id':
+            user_input_data[column] = 5000
+            continue
 
-    return user_input
+        variable_info = get_variable_info(column)
+        variable_name = variable_info['name']
+        variable_range = variable_info['range']
+
+        while True:
+            user_input = input_function(
+                f"Ingresa el valor para '{variable_name}' "
+                f"({variable_range}): ").strip()
+            if user_input == '':
+                user_input = default_values.get(column, None)
+            else:
+                try:
+                    user_input = float(user_input)
+                    if not validate_input(user_input, variable_ranges[column]):
+                        print(
+                            "Error: El valor ingresado "
+                            "está fuera del rango permitido "
+                            f"{variable_ranges[column]}. Por favor, "
+                            "ingresa un valor dentro del rango"
+                        )
+                        continue
+                except ValueError:
+                    print("Error: Por favor, "
+                          "ingresa un número decimal válido.")
+                    continue
+            break
+
+        user_input_data[column] = user_input
+
+    user_input_df = pd.DataFrame([user_input_data], columns=feature_columns)
+    return user_input_df
+
+
+def validate_input(user_input, variable_range):
+    '''
+    Esta función se encarga de validar que el valor
+    de entrada esté dentro del rango permitido
+    '''
+    # Comprobar si el valor de entrada está dentro del rango permitido
+    return variable_range[0] <= user_input <= variable_range[1]
+
+
+def get_variable_info(column):
+    """
+    Obtiene información adicional sobre la variable.
+
+    Parameters:
+    - column (str): Nombre de la columna.
+
+    Returns:
+    - variable_info (dict): Diccionario con el nombre y rango de la variable.
+    """
+    variable_info = {}
+
+    if column == 'Id':
+        variable_info['name'] = 'Identificador'
+        variable_info['range'] = 'Entero positivo'
+    elif column == 'OverallQual':
+        variable_info['name'] = 'Calidad general'
+        variable_info['range'] = 'Entero de 1 a 10'
+    elif column == 'GrLivArea':
+        variable_info['name'] = 'Área habitable (pies cuadrados)'
+        variable_info['range'] = 'Entero de 0 a 5642'
+    elif column == 'FullBath':
+        variable_info['name'] = 'Baños completos'
+        variable_info['range'] = 'Entero de 1 a 4'
+    elif column == 'YearBuilt':
+        variable_info['name'] = 'Año de construcción'
+        variable_info['range'] = 'Entero de 1872 a 2010'
+    elif column == 'GarageCars':
+        variable_info['name'] = 'Capacidad del garaje (número de autos)'
+        variable_info['range'] = 'Entero de 0 a 5'
+    elif column == 'GarageArea':
+        variable_info['name'] = 'Área del garaje (pies cuadrados)'
+        variable_info['range'] = 'Entero de 0 a 1488'
+    elif column == 'ExterQual':
+        variable_info['name'] = 'Calidad del material exterior'
+        variable_info['range'] = 'Entero de 0 a 3'
+    elif column == 'BsmtQual':
+        variable_info['name'] = 'Calidad del sótano'
+        variable_info['range'] = 'Entero de 0 a 4'
+
+    return variable_info
 
 
 def inference(output_file_path, user_input_df):
@@ -65,7 +150,7 @@ def inference(output_file_path, user_input_df):
     # Check if user_input_df is None
     if user_input_df is None:
         # If not provided, solicit input from the user
-        user_input = get_user_input()
+        user_input = get_user_input(feature_columns)
         user_input_df = pd.DataFrame({'Id': [5000],
                                       **user_input}, columns=feature_columns)
 
