@@ -157,3 +157,6 @@ src/test_scripts_train.py .El modelo fue entrenado y guardado en /private/var/fo
 
 ============================================================================================== 4 passed in 21.52s ==============================================================================================
 
+# Arquitectura
+
+![Arquitectura](./Arq_Pred_Precios_Casas.png)
