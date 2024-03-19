@@ -159,4 +159,4 @@ src/test_scripts_train.py .El modelo fue entrenado y guardado en /private/var/fo
 
 # Arquitectura
 
-![Arquitectura](./Arq_Pred_Precios_Casas.png)
+![Arquitectura](./Arquitectura.png)
